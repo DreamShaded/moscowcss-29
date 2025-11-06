@@ -3,6 +3,7 @@
 	/* total content offset from edges: 1rem (outside) + 1rem (inside) */
 	padding: 2rem;
 	height: 100%;
+	color: var(--color);
 }
 
 /* бордер для всех слайдов */

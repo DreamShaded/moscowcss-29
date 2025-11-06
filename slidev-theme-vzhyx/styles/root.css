@@ -98,3 +98,20 @@
 		--logo-bg-color: var(--grey-black);
 	}
 }
+
+/* Runtime theme toggle (Slidev API) */
+html.dark,
+:root.dark {
+	--color: var(--white);
+	--background: var(--grey-black);
+	--border-color: var(--grey-border);
+	--logo-bg-color: var(--dark-blue);
+}
+
+html:not(.dark),
+:root.light {
+	--color: var(--grey-black);
+	--background: var(--light);
+	--border-color: var(--light-border);
+	--logo-bg-color: var(--grey-black);
+}
