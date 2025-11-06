@@ -31,8 +31,23 @@ const index = ref(0);
 const hasImages = computed(
 	() => Array.isArray(props.images) && props.images.length > 0,
 );
+
+function resolveSrc(src) {
+	if (!src) return "";
+	// leave external/data urls as-is
+	if (/^(https?:)?\/\//.test(src) || src.startsWith("data:")) return src;
+	const base = (import.meta.env && import.meta.env.BASE_URL) || "/";
+	return src.startsWith("/") ? `${base}${src.slice(1)}` : `${base}${src}`;
+}
+
+const resolvedImages = computed(() =>
+	hasImages.value ? props.images.map(resolveSrc) : [],
+);
+
 const currentSrc = computed(() =>
-	hasImages.value ? props.images[index.value % props.images.length] : "",
+	hasImages.value
+		? resolvedImages.value[index.value % resolvedImages.value.length]
+		: "",
 );
 
 let timer;
@@ -46,7 +61,7 @@ function start() {
 	stop();
 	if (!hasImages.value) return;
 	// preload next
-	props.images.forEach((src) => {
+	resolvedImages.value.forEach((src) => {
 		const img = new Image();
 		img.src = src;
 	});
